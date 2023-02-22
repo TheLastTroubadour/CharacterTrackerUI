@@ -1,0 +1,65 @@
+<p>Epic 1.5 Tracker by Character</p>
+
+<table>
+  <tr>
+    <th>Character</th>
+    <th>Completed</th>
+    <th>1st Stone</th>
+    <th>2nd Stone</th>
+    <th>3rd Stone</th>
+    <th>4th Stone</th>
+    <th>Flawess UH</th>
+    <th>Perfect UH</th>
+    <th>Total UH</th>
+    <th>Absurd UH</th>
+    <th>EOT Terrorantula</th>
+    <th>EOT Spectre</th>
+    <th>EOT Vampire</th>
+    <th>EOT Ghost</th>
+    <th>Blood of the Dragon</th>
+  </tr>
+  <tr *ngFor="let e of epic1_5Quests; let i=index">
+    <td>{{e.character.name}}</td>
+    <td>
+      <input type="checkbox" [(ngModel)]="e.completed" [disabled]="true">
+    </td>
+    <td>
+      <input type="checkbox" [(ngModel)]="e.firstStone.inInventory" disabled="true">
+    </td>
+    <td>
+      <input type="checkbox" [(ngModel)]="e.secondStone.inInventory" disabled="true">
+    </td>
+    <td>
+      <input type="checkbox" [(ngModel)]="e.thirdStone.inInventory" disabled="true">
+    </td>
+    <td>
+      <input type="checkbox" [(ngModel)]="e.fourthStone.inInventory" disabled>
+    </td>
+    <td>
+      <input type="checkbox" [(ngModel)]="e.flawlessUnicornHeart.inInventory" disabled>
+    </td>
+    <td>
+      <input [(ngModel)]="e.perfectUnicornHeart.inInventory" type="checkbox" disabled>
+    </td>
+    <td>
+      <input [(ngModel)]="e.totalUnicornHeart.inInventory" type="checkbox" disabled>
+    </td>
+    <td>
+      <input [(ngModel)]="e.absurdUnicornHeart.inInventory" type="checkbox" disabled>
+    </td>
+    <td>
+      <input [(ngModel)]="e.eyeOfTheTerrorantula.inInventory" type="checkbox" disabled>
+    </td>
+    <td>
+      <input [(ngModel)]="e.eyeOfTheSpectre.inInventory" type="checkbox" disabled>
+    </td>
+    <td>
+      <input [(ngModel)]="e.eyeOfTheVampire.inInventory" type="checkbox" disabled>
+    </td>
+    <td>
+      <input [(ngModel)]="e.eyeOfTheGhost.inInventory" type="checkbox" disabled></td>
+    <td>
+      <input [(ngModel)]="e.bloodOfTheDragon.inInventory" type="checkbox" disabled>
+    </td>
+  </tr>
+</table>

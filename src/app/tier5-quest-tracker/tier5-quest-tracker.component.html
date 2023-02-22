@@ -1,0 +1,44 @@
+<table>
+  <th>
+    <input type="checkbox">
+    <label>Show Xegony Key Quests</label>
+  </th>
+  <th>
+    <input type="checkbox">
+    <label>Show PoA Augment Quests</label>
+  </th>
+</table>
+
+<table>
+  <tr>
+    <th>Character</th>
+    <th>Mystical Essence of Dust</th>
+    <th>Mystical Essence of Mist</th>
+    <th>Mystical Essence of Smoke</th>
+    <th>Mystical Essence of Wind</th>
+  </tr>
+  <tr *ngFor="let xeg of xegony_key_quests; let i=index">
+    <td>{{xeg.character.name}}</td>
+    <td><input type="checkbox" [(ngModel)]="xeg.mysticalEssenceOfDust.inInventory" disabled></td>
+    <td><input type="checkbox" [(ngModel)]="xeg.mysticalEssenceOfMist.inInventory" disabled></td>
+    <td><input type="checkbox" [(ngModel)]="xeg.mysticalEssenceOfSmoke.inInventory" disabled></td>
+    <td><input type="checkbox" [(ngModel)]="xeg.mysticalEssenceOfWind.inInventory" disabled></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th>Character</th>
+    <th>Quest Item</th>
+    <th>Quest Item In Inventory</th>
+    <th>Wind Parchment</th>
+    <th>Container of Mist</th>
+  </tr>
+  <tr *ngFor="let aug of poa_augment_quests; let i=index">
+    <td>{{aug.character.name}}</td>
+    <td>{{aug.questItem.item.name}}</td>
+    <td><input type="checkbox" [(ngModel)]="aug.questItem.inInventory" disabled></td>
+    <td><input type="checkbox" [(ngModel)]="aug.windParchment.inInventory" disabled></td>
+    <td><input type="checkbox" [(ngModel)]="aug.containerOfMist.inInventory" disabled></td>
+  </tr>
+</table>
