@@ -12,6 +12,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import { Epic15trackerComponent } from './epic15tracker/epic15tracker.component';
 import { Tier5QuestTrackerComponent } from './tier5-quest-tracker/tier5-quest-tracker.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import { AddCharacterComponent } from './characters/add-character/add-character.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,8 @@ import { Tier5QuestTrackerComponent } from './tier5-quest-tracker/tier5-quest-tr
     CharactersComponent,
     CharacterarmorslottableComponent,
     Epic15trackerComponent,
-    Tier5QuestTrackerComponent
+    Tier5QuestTrackerComponent,
+    AddCharacterComponent
   ],
   imports: [
     HttpClientModule,
@@ -29,7 +32,8 @@ import { Tier5QuestTrackerComponent } from './tier5-quest-tracker/tier5-quest-tr
     FormsModule,
     ReactiveFormsModule,
     MatCheckboxModule,
-    NoopAnimationsModule
+    NoopAnimationsModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

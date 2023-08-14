@@ -1,10 +1,13 @@
+<button (click)="addCharacter()">Add Character</button>
 <table>
   <tr>
     <th>Name</th>
     <th>Level</th>
+    <th>Server</th>
   </tr>
   <tr *ngFor="let character of characters">
     <td>{{character.name}}</td>
     <td>{{character.level}}</td>
+    <td>{{character.server}}</td>
   </tr>
 </table>

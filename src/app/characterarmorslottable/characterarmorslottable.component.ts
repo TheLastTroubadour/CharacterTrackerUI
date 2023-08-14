@@ -8,6 +8,7 @@ import {HttpParams} from "@angular/common/http";
 import {relative} from "@angular/compiler-cli";
 import {error} from "@angular/compiler-cli/src/transformers/util";
 import {EquipSlot} from "../model/equip-slot";
+import {ServerTypes} from "../model/server-types";
 
 @Component({
   selector: 'app-characterarmorslottable',
@@ -23,9 +24,11 @@ export class CharacterarmorslottableComponent implements OnInit {
   characterArmorSlots: CharacterEquipArmorSlot[] = [];
   characterClasses = Object.entries(CharacterClasses).map(([shortName, obj]) => ({shortName, obj}));
   armorSlots = Object.keys(EquipSlot).filter(v => isNaN(Number(v)));
+  serverTypes = Object.keys(ServerTypes).filter(v => isNaN(Number(v)));
 
   slotCheckBox: any[] = [];
   classCheckbox: any[] = [];
+  serverCheckbox: any[] = [];
   plateCheckbox: boolean = false;
   leatherCheckbox: boolean = false;
   chainCheckbox: boolean = false;
@@ -48,7 +51,11 @@ export class CharacterarmorslottableComponent implements OnInit {
     }
 
     for(const entry in this.armorSlots) {
-      this.slotCheckBox.push({slotName: EquipSlot[entry], checked: false, value:entry})
+      this.slotCheckBox.push({slotName: EquipSlot[entry], checked: false, value: entry});
+    }
+
+    for(const entry in this.serverTypes) {
+      this.serverCheckbox.push({name: ServerTypes[entry], checked: false, value: entry});
     }
 
     this.route.queryParams.subscribe({
@@ -56,6 +63,11 @@ export class CharacterarmorslottableComponent implements OnInit {
         if(x['slots'] != null) {
           this.httpParams = this.httpParams.set('slots', x['slots']);
         }
+
+        if(x['server'] != null) {
+          this.httpParams = this.httpParams.set('server', x['server']);
+        }
+
         if(x['classes'] != null ){
           this.httpParams = this.httpParams.set('classes', x['classes']);
         }
@@ -85,15 +97,18 @@ export class CharacterarmorslottableComponent implements OnInit {
   search() {
     let checkedClassesArray: String[] = [];
     let checkedSlotsArray: String[] = [];
+    let checkedServerArray: String[] = [];
     this.classCheckbox.filter(v => v.checked).forEach(v => checkedClassesArray.push(v.longName));
     this.classCheckbox.forEach(v => v.checked = false);
     this.slotCheckBox.filter((v => v.checked)).forEach(v => checkedSlotsArray.push(v.slotName));
     this.slotCheckBox.forEach(v => v.checked = false);
+    this.serverCheckbox.filter(v => v.checked).forEach(v => checkedServerArray.push(v.name));
+    this.serverCheckbox.forEach(v => v.checked = false);
     this.plateCheckbox = false;
     this.chainCheckbox = false;
     this.silkCheckbox = false;
     this.leatherCheckbox = false;
-    this.router.navigate(['/character-armor'], {relativeTo: this.route, queryParams: {classes: checkedClassesArray, slots: checkedSlotsArray}}).then(() => {
+    this.router.navigate(['/character-armor'], {relativeTo: this.route, queryParams: {classes: checkedClassesArray, slots: checkedSlotsArray, server: checkedServerArray}}).then(() => {
       this.getCharacterListFromParams()
     });
   }

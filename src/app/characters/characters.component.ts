@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Character} from "../model/character";
 import {CharacterService} from "../service/character-service";
+import {MatDialog, MatDialogModule} from "@angular/material/dialog";
+import {AddCharacterComponent} from "./add-character/add-character.component";
 
 @Component({
   selector: 'app-characters',
@@ -10,14 +12,18 @@ import {CharacterService} from "../service/character-service";
 export class CharactersComponent implements OnInit{
   characters: Character[] = []
 
-  constructor(private characterService: CharacterService) {
+  constructor(private dialogRef: MatDialog, private characterService: CharacterService) {
+  }
+
+  addCharacter(){
+    this.dialogRef.open(AddCharacterComponent)
   }
   ngOnInit(): void {
-    this.characterService.getUsers().subscribe(data => this.characters = data);
+    this.characterService.getCharacter().subscribe(data => this.characters = data);
   }
 
   getAllCharacters(): void {
-    this.characterService.getUsers().subscribe(data => this.characters = data);
+    this.characterService.getCharacter().subscribe(data => this.characters = data);
   }
 
 }

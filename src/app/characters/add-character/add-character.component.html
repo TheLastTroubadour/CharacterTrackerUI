@@ -1,0 +1,21 @@
+<form [formGroup]="characterForm" (ngSubmit)="addCharacter()">
+  <div class="character-form">
+    <label>Character Name</label>
+    <input formControlName="name" type="text">
+  </div>
+  <div class="character-form">
+    <label>Class</label>
+    <select formControlName="class" name="classes" (change)="changeClass($event)">
+      <option selected></option>
+      <option *ngFor="let cls of characterClasses">{{cls.obj.display}}</option>
+    </select>
+  </div>
+  <div class="character-form">
+    <label>Server</label>
+    <select formControlName="server" name ="servers" (change)="changeServer($event)">
+      <option selected></option>
+      <option *ngFor="let s of serverTypes">{{s}}</option>
+    </select>
+  </div>
+  <button class="btn btn-primary">Submit</button>
+</form>

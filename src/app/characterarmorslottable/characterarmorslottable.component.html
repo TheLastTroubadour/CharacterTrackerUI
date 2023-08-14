@@ -1,5 +1,13 @@
 <table>
   <tr>
+    <td *ngFor="let serv of serverCheckbox; let i=index">
+      <input name="{{serv.value}}" type="checkbox" value={{serv.value}} [(ngModel)]="serv.checked">
+      <label>{{serv.name}}</label>
+    </td>
+  </tr>
+</table>
+<table>
+  <tr>
     <td *ngFor="let selected of classCheckbox; let i=index;">
       <input name={{selected.name}} type="checkbox" value={{selected.value}} [(ngModel)]="selected.checked">
       <label>{{selected.value}}</label>

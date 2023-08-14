@@ -15,7 +15,14 @@ export class CharacterService {
 
   constructor(private http: HttpClient) { }
 
-  getUsers(): Observable<Character[]> {
-    return this.http.get<Character[]>(ServerConstants.EQ_CHARACTER_TRACKER_API_URL + 'character', this.httpOptions).pipe()
+  getCharacter(): Observable<Character[]> {
+    return this.http.get<Character[]>(ServerConstants.EQ_CHARACTER_TRACKER_API_URL + 'character', this.httpOptions).pipe();
+  }
+
+  addCharacter(character: Character): any {
+    return this.http.post<Character>(ServerConstants.EQ_CHARACTER_TRACKER_API_URL + 'character/1', character, this.httpOptions)
+     .subscribe(res => {
+       return res;
+     })
   }
 }
