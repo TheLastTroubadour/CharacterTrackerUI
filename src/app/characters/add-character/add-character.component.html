@@ -1,21 +1,26 @@
+<h4 class="mb-3">Add Character</h4>
+
 <form [formGroup]="characterForm" (ngSubmit)="addCharacter()">
-  <div class="character-form">
-    <label>Character Name</label>
-    <input formControlName="name" type="text">
+  <div class="mb-3">
+    <label class="form-label">Character Name</label>
+    <input class="form-control" formControlName="name" type="text" placeholder="Enter character name">
   </div>
-  <div class="character-form">
-    <label>Class</label>
-    <select formControlName="characterClass" name="classes" (change)="changeClass($event)">
-      <option selected></option>
+  <div class="mb-3">
+    <label class="form-label">Class</label>
+    <select class="form-select" formControlName="characterClass" name="classes" (change)="changeClass($event)">
+      <option value="" selected>Select a class</option>
       <option *ngFor="let cls of characterClasses">{{cls.obj.display}}</option>
     </select>
   </div>
-  <div class="character-form">
-    <label>Server</label>
-    <select formControlName="server" name ="servers" (change)="changeServer($event)">
-      <option selected></option>
+  <div class="mb-3">
+    <label class="form-label">Server</label>
+    <select class="form-select" formControlName="server" name="servers" (change)="changeServer($event)">
+      <option value="" selected>Select a server</option>
       <option *ngFor="let s of serverTypes">{{s}}</option>
     </select>
   </div>
-  <button class="btn btn-primary">Submit</button>
+  <div class="d-flex justify-content-end gap-2">
+    <button type="button" class="btn btn-secondary" (click)="dialogRef.close()">Cancel</button>
+    <button type="submit" class="btn btn-primary">Save</button>
+  </div>
 </form>

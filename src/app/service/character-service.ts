@@ -19,10 +19,7 @@ export class CharacterService {
     return this.http.get<Character[]>(ServerConstants.EQ_CHARACTER_TRACKER_API_URL + 'character', this.httpOptions).pipe();
   }
 
-  addCharacter(character: Character): any {
-    return this.http.post<Character>(ServerConstants.EQ_CHARACTER_TRACKER_API_URL + 'character/1', character, this.httpOptions)
-     .subscribe(res => {
-       return res;
-     })
+  addCharacter(character: Pick<Character, 'name' | 'characterClass' | 'server'>): Observable<Character> {
+    return this.http.post<Character>(ServerConstants.EQ_CHARACTER_TRACKER_API_URL + 'character/1', character, this.httpOptions);
   }
 }

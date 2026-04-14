@@ -1,44 +1,75 @@
-<table>
-  <th>
-    <input type="checkbox">
-    <label>Show Xegony Key Quests</label>
-  </th>
-  <th>
-    <input type="checkbox">
-    <label>Show PoA Augment Quests</label>
-  </th>
-</table>
+<h2 class="mb-4">Tier 5 Quest Tracker</h2>
 
-<table>
-  <tr>
-    <th>Character</th>
-    <th>Mystical Essence of Dust</th>
-    <th>Mystical Essence of Mist</th>
-    <th>Mystical Essence of Smoke</th>
-    <th>Mystical Essence of Wind</th>
-  </tr>
-  <tr *ngFor="let xeg of xegony_key_quests; let i=index">
-    <td>{{xeg.character.name}}</td>
-    <td><input type="checkbox" [(ngModel)]="xeg.mysticalEssenceOfDust.inInventory" disabled></td>
-    <td><input type="checkbox" [(ngModel)]="xeg.mysticalEssenceOfMist.inInventory" disabled></td>
-    <td><input type="checkbox" [(ngModel)]="xeg.mysticalEssenceOfSmoke.inInventory" disabled></td>
-    <td><input type="checkbox" [(ngModel)]="xeg.mysticalEssenceOfWind.inInventory" disabled></td>
-  </tr>
-</table>
+<h4 class="mb-2">Xegony Key Quests</h4>
+<ng-container *ngIf="xegony_key_quests$ | async as xegonyQuests; else xegonyLoading">
+  <div *ngIf="xegonyError" class="alert alert-danger">{{xegonyError}}</div>
+  <p *ngIf="!xegonyError && xegonyQuests.length === 0" class="text-muted fst-italic">No Xegony Key quests found.</p>
+  <div *ngIf="xegonyQuests.length > 0" class="card shadow-sm mb-4">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover mb-0">
+        <thead class="table-dark">
+          <tr>
+            <th>Character</th>
+            <th>Essence of Dust</th>
+            <th>Essence of Mist</th>
+            <th>Essence of Smoke</th>
+            <th>Essence of Wind</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let xeg of xegonyQuests; let i=index">
+            <td class="fw-semibold">{{xeg.character.name}}</td>
+            <td class="text-center"><input type="checkbox" [(ngModel)]="xeg.mysticalEssenceOfDust.inInventory" [disabled]="true"></td>
+            <td class="text-center"><input type="checkbox" [(ngModel)]="xeg.mysticalEssenceOfMist.inInventory" [disabled]="true"></td>
+            <td class="text-center"><input type="checkbox" [(ngModel)]="xeg.mysticalEssenceOfSmoke.inInventory" [disabled]="true"></td>
+            <td class="text-center"><input type="checkbox" [(ngModel)]="xeg.mysticalEssenceOfWind.inInventory" [disabled]="true"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-container>
+<ng-template #xegonyLoading>
+  <div class="d-flex justify-content-center my-3">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</ng-template>
 
-<table>
-  <tr>
-    <th>Character</th>
-    <th>Quest Item</th>
-    <th>Quest Item In Inventory</th>
-    <th>Wind Parchment</th>
-    <th>Container of Mist</th>
-  </tr>
-  <tr *ngFor="let aug of poa_augment_quests; let i=index">
-    <td>{{aug.character.name}}</td>
-    <td>{{aug.questItem.item.name}}</td>
-    <td><input type="checkbox" [(ngModel)]="aug.questItem.inInventory" disabled></td>
-    <td><input type="checkbox" [(ngModel)]="aug.windParchment.inInventory" disabled></td>
-    <td><input type="checkbox" [(ngModel)]="aug.containerOfMist.inInventory" disabled></td>
-  </tr>
-</table>
+<h4 class="mb-2">PoA Augment Quests</h4>
+<ng-container *ngIf="poa_augment_quests$ | async as poaQuests; else poaLoading">
+  <div *ngIf="poaError" class="alert alert-danger">{{poaError}}</div>
+  <p *ngIf="!poaError && poaQuests.length === 0" class="text-muted fst-italic">No PoA Augment quests found.</p>
+  <div *ngIf="poaQuests.length > 0" class="card shadow-sm">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover mb-0">
+        <thead class="table-dark">
+          <tr>
+            <th>Character</th>
+            <th>Quest Item</th>
+            <th>In Inventory</th>
+            <th>Wind Parchment</th>
+            <th>Container of Mist</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let aug of poaQuests; let i=index">
+            <td class="fw-semibold">{{aug.character.name}}</td>
+            <td>{{aug.questItem.item.name}}</td>
+            <td class="text-center"><input type="checkbox" [(ngModel)]="aug.questItem.inInventory" [disabled]="true"></td>
+            <td class="text-center"><input type="checkbox" [(ngModel)]="aug.windParchment.inInventory" [disabled]="true"></td>
+            <td class="text-center"><input type="checkbox" [(ngModel)]="aug.containerOfMist.inInventory" [disabled]="true"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-container>
+<ng-template #poaLoading>
+  <div class="d-flex justify-content-center my-3">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</ng-template>

@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import {User} from "../model/user";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ServerConstants} from "../server-constants";
-import {Observable, Subscription} from "rxjs";
-import {error} from "@angular/compiler-cli/src/transformers/util";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'

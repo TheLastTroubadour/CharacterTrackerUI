@@ -1,69 +1,113 @@
-<table class="table">
-  <tr class="container form-check-inline">
-    <td *ngFor="let serv of serverCheckbox; let i=index">
-      <input name="{{serv.value}}" type="checkbox" value={{serv.value}} [(ngModel)]="serv.checked">
-      <label>{{serv.name}}</label>
-    </td>
-  </tr>
-  <tr class="container form-check-inline">
-    <td *ngFor="let selected of classCheckbox; let i=index;">
-      <input name={{selected.name}} type="checkbox" value={{selected.value}} [(ngModel)]="selected.checked">
-      <label>{{selected.value}}</label>
-    </td>
-  </tr>
-  <tr class="container form-check-inline">
-    <td *ngFor="let s of slotCheckBox; let i=index;">
-      <input name={{s.slotName}} type="checkbox" value={{s.slotName}} [(ngModel)]="s.checked">
-      <label>{{s.slotName}}</label>
-    </td>
-  </tr>
-  <tr class="container form-check-inline">
-    <td>
-      <input name="Plate" type="checkbox" value="Plate" [(ngModel)]="plateCheckbox" (change)="selectPlate()">
-      <label>Plate</label>
-    </td>
-    <td>
-      <input name="Chain" type="checkbox" value="Chain" [(ngModel)]="chainCheckbox" (change)="selectChain()">
-      <label>Chain</label>
-    </td>
-    <td>
-      <input name="Leather" type="checkbox" value="Leather" [(ngModel)]="leatherCheckbox" (change)="selectLeather()">
-      <label>Leather</label>
-    </td>
-    <td>
-      <input name="Silk" type="checkbox" value="Silk" [(ngModel)]="silkCheckbox" (change)="selectSilk()">
-      <label>Silk</label>
-    </td>
-  </tr>
-  <tr class="container form-check-inline">
-    <td>
-      <input name="Melee" type="checkbox" value="Melee" [(ngModel)]="meleeCheckBox" (change)="selectMelee()">
-      <label>Melee</label>
-    </td>
-    <td>
-      <input name="Healer" type="checkbox" value="Healer" [(ngModel)]="healerCheckBox" (change)="selectHealer()">
-      <label>Healer</label>
-    </td>
-    <td>
-      <input name="Caster" type="checkbox" value="Caster" [(ngModel)]="casterCheckBox" (change)="selectCaster()">
-      <label>Caster</label>
-    </td>
-  </tr>
-</table>
+<h2 class="mb-3">Armor Search</h2>
 
-<button class="btn btn-success" type="submit" (click)="search()">Search</button>
+<div class="card shadow-sm mb-3">
+  <div class="card-body">
 
-<table class="table align-middle">
-  <tr>
-    <th>Character Name</th>
-    <th>Armor Name</th>
-    <th>HP</th>
-    <th>Mana</th>
-  </tr>
-  <tr *ngFor="let c of characterArmorSlots; let i = index">
-    <td>{{c.character.name}}</td>
-    <td>{{c.armor.name}}</td>
-    <td>{{c.armor.hitPoints}}</td>
-    <td>{{c.armor.manaPoints}}</td>
-  </tr>
-</table>
+    <div class="mb-3">
+      <h6 class="text-muted text-uppercase fw-semibold mb-2">Server</h6>
+      <div class="d-flex flex-wrap gap-3">
+        <div *ngFor="let serv of serverCheckbox" class="form-check">
+          <input class="form-check-input" name="{{serv.value}}" type="checkbox" [id]="'serv-' + serv.value" value={{serv.value}} [(ngModel)]="serv.checked">
+          <label class="form-check-label" [for]="'serv-' + serv.value">{{serv.name}}</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <h6 class="text-muted text-uppercase fw-semibold mb-2">Armor Type</h6>
+      <div class="d-flex flex-wrap gap-3">
+        <div class="form-check">
+          <input class="form-check-input" id="plate" name="Plate" type="checkbox" value="Plate" [(ngModel)]="plateCheckbox" (change)="selectPlate()">
+          <label class="form-check-label" for="plate">Plate</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" id="chain" name="Chain" type="checkbox" value="Chain" [(ngModel)]="chainCheckbox" (change)="selectChain()">
+          <label class="form-check-label" for="chain">Chain</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" id="leather" name="Leather" type="checkbox" value="Leather" [(ngModel)]="leatherCheckbox" (change)="selectLeather()">
+          <label class="form-check-label" for="leather">Leather</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" id="silk" name="Silk" type="checkbox" value="Silk" [(ngModel)]="silkCheckbox" (change)="selectSilk()">
+          <label class="form-check-label" for="silk">Silk</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <h6 class="text-muted text-uppercase fw-semibold mb-2">Fighter Type</h6>
+      <div class="d-flex flex-wrap gap-3">
+        <div class="form-check">
+          <input class="form-check-input" id="melee" name="Melee" type="checkbox" value="Melee" [(ngModel)]="meleeCheckBox" (change)="selectMelee()">
+          <label class="form-check-label" for="melee">Melee</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" id="healer" name="Healer" type="checkbox" value="Healer" [(ngModel)]="healerCheckBox" (change)="selectHealer()">
+          <label class="form-check-label" for="healer">Healer</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" id="caster" name="Caster" type="checkbox" value="Caster" [(ngModel)]="casterCheckBox" (change)="selectCaster()">
+          <label class="form-check-label" for="caster">Caster</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <h6 class="text-muted text-uppercase fw-semibold mb-2">Class</h6>
+      <div class="d-flex flex-wrap gap-3">
+        <div *ngFor="let selected of classCheckbox" class="form-check">
+          <input class="form-check-input" [name]="selected.name" [id]="'cls-' + selected.value" type="checkbox" [value]="selected.value" [(ngModel)]="selected.checked">
+          <label class="form-check-label" [for]="'cls-' + selected.value">{{selected.value}}</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <h6 class="text-muted text-uppercase fw-semibold mb-2">Slot</h6>
+      <div class="d-flex flex-wrap gap-3">
+        <div *ngFor="let s of slotCheckBox" class="form-check">
+          <input class="form-check-input" [name]="s.slotName" [id]="'slot-' + s.slotName" type="checkbox" [value]="s.slotName" [(ngModel)]="s.checked">
+          <label class="form-check-label" [for]="'slot-' + s.slotName">{{s.slotName}}</label>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-success" type="button" (click)="search()">Search</button>
+
+  </div>
+</div>
+
+<ng-container *ngIf="characterArmorSlots$ | async as slots; else loading">
+  <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+  <p *ngIf="!error && slots.length === 0" class="text-muted fst-italic">No armor found for the selected filters.</p>
+  <div *ngIf="slots.length > 0" class="card shadow-sm">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover mb-0">
+        <thead class="table-dark">
+          <tr>
+            <th>Character</th>
+            <th>Armor</th>
+            <th>HP</th>
+            <th>Mana</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of slots">
+            <td class="fw-semibold">{{c.character.name}}</td>
+            <td>{{c.armor.name}}</td>
+            <td>{{c.armor.hitPoints}}</td>
+            <td>{{c.armor.manaPoints}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-container>
+<ng-template #loading>
+  <div class="d-flex justify-content-center my-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</ng-template>

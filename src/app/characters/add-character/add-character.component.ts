@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ServerTypes} from "../../model/server-types";
-import {Character} from "../../model/character";
 import {FormBuilder} from "@angular/forms";
 import {CharacterClasses} from "../../model/character-classes";
 import {CharacterService} from "../../service/character-service";
+import {MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-add-character',
@@ -15,31 +15,36 @@ export class AddCharacterComponent implements OnInit{
   serverTypes = Object.keys(ServerTypes).filter(v => isNaN(Number(v)));
   characterClasses = Object.entries(CharacterClasses).map(([shortName, obj]) => ({shortName, obj}));
 
-  constructor(private fb: FormBuilder, private characterService: CharacterService) {
-  }
-
-  ngOnInit(): void {
-    }
-
   characterForm = this.fb.group({
     name: [''],
     characterClass: [''],
     server: [''],
-  })
+  });
 
-  servers= Object.keys(ServerTypes).filter(v => isNaN(Number(v)));
+  constructor(
+    private fb: FormBuilder,
+    private characterService: CharacterService,
+    public dialogRef: MatDialogRef<AddCharacterComponent>
+  ) {}
+
+  ngOnInit(): void {}
 
   changeClass(e: any){
     this.characterForm.controls['characterClass'].setValue(e.target.value);
   }
 
-  changeServer(e : any){
+  changeServer(e: any){
     this.characterForm.controls['server'].setValue(e.target.value);
   }
 
   addCharacter() {
-    let character: Character = this.characterForm.value as any as Character;
-    let res = this.characterService.addCharacter(character);
-    console.log(res);
+    const { name, characterClass, server } = this.characterForm.getRawValue();
+    this.characterService.addCharacter({
+      name: name ?? '',
+      characterClass: characterClass ?? '',
+      server: server ?? '',
+    }).subscribe(() => {
+      this.dialogRef.close(true);
+    });
   }
 }

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from "../model/user";
 import {UserService} from "../service/user.service";
+import {Observable, catchError, of} from "rxjs";
 
 @Component({
   selector: 'app-userlist',
@@ -9,16 +10,18 @@ import {UserService} from "../service/user.service";
 })
 
 export class UserlistComponent implements OnInit {
-  users: User[] = []
+  users$: Observable<User[]> = new Observable();
+  error: string | null = null;
 
   constructor(private userService: UserService) {
   }
 
   ngOnInit(): void {
-    this.getUsers();
-  }
-
-  getUsers(): void {
-    this.userService.getUsers().subscribe(data => this.users = data);
+    this.users$ = this.userService.getUsers().pipe(
+      catchError(() => {
+        this.error = 'Failed to load users.';
+        return of([]);
+      })
+    );
   }
 }

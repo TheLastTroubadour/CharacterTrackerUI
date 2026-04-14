@@ -1,15 +1,39 @@
-<button (click)="addCharacter()">Add Character</button>
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Level</th>
-    <th>Class</th>
-    <th>Server</th>
-  </tr>
-  <tr *ngFor="let character of characters">
-    <td>{{character.name}}</td>
-    <td>{{character.level}}</td>
-    <td>{{character.characterClass}}</td>
-    <td>{{character.server}}</td>
-  </tr>
-</table>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2 class="mb-0">Characters</h2>
+  <button class="btn btn-primary" (click)="addCharacter()">+ Add Character</button>
+</div>
+
+<ng-container *ngIf="characters$ | async as characters; else loading">
+  <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+  <p *ngIf="!error && characters.length === 0" class="text-muted fst-italic">No characters found.</p>
+  <div *ngIf="characters.length > 0" class="card shadow-sm">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover mb-0">
+        <thead class="table-dark">
+          <tr>
+            <th>Name</th>
+            <th>Level</th>
+            <th>Class</th>
+            <th>Server</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let character of characters">
+            <td>{{character.name}}</td>
+            <td>{{character.level}}</td>
+            <td>{{character.characterClass}}</td>
+            <td>{{character.server}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #loading>
+  <div class="d-flex justify-content-center my-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</ng-template>

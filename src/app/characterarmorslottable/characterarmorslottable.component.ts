@@ -3,10 +3,8 @@ import {CharacterEquipArmorSlotService} from "../service/character-equip-armor-s
 import {CharacterEquipArmorSlot} from "../model/character-equip-armor-slot";
 import {CharacterClasses} from "../model/character-classes";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Observable, Subscription} from "rxjs";
+import {Observable, catchError, of, switchMap} from "rxjs";
 import {HttpParams} from "@angular/common/http";
-import {relative} from "@angular/compiler-cli";
-import {error} from "@angular/compiler-cli/src/transformers/util";
 import {EquipSlot} from "../model/equip-slot";
 import {ServerTypes} from "../model/server-types";
 
@@ -20,8 +18,8 @@ import {ServerTypes} from "../model/server-types";
 
 export class CharacterarmorslottableComponent implements OnInit {
 
-  characterArmorSlotSubscription: Subscription | undefined;
-  characterArmorSlots: CharacterEquipArmorSlot[] = [];
+  characterArmorSlots$: Observable<CharacterEquipArmorSlot[]> = new Observable();
+  error: string | null = null;
   characterClasses = Object.entries(CharacterClasses).map(([shortName, obj]) => ({shortName, obj}));
   armorSlots = Object.keys(EquipSlot).filter(v => isNaN(Number(v)));
   serverTypes = Object.keys(ServerTypes).filter(v => isNaN(Number(v)));
@@ -36,7 +34,6 @@ export class CharacterarmorslottableComponent implements OnInit {
   leatherCheckbox: boolean = false;
   chainCheckbox: boolean = false;
   silkCheckbox: boolean = false;
-  httpParams: HttpParams = new HttpParams();
 
   constructor(private route: ActivatedRoute,
               private equipSlotService: CharacterEquipArmorSlotService,
@@ -62,24 +59,21 @@ export class CharacterarmorslottableComponent implements OnInit {
       this.serverCheckbox.push({name: ServerTypes[entry], checked: false, value: entry});
     }
 
-    this.route.queryParams.subscribe({
-      next: (x => {
-        if(x['slots'] != null) {
-          this.httpParams = this.httpParams.set('slots', x['slots']);
-        }
-
-        if(x['server'] != null) {
-          this.httpParams = this.httpParams.set('server', x['server']);
-        }
-
-        if(x['classes'] != null ){
-          this.httpParams = this.httpParams.set('classes', x['classes']);
-        }
-      }),
-      error: (x => console.log('Error', x)),
-    });
-
-    this.getCharacterListFromParams();
+    this.characterArmorSlots$ = this.route.queryParams.pipe(
+      switchMap(params => {
+        this.error = null;
+        let httpParams = new HttpParams();
+        if (params['slots'] != null) httpParams = httpParams.set('slots', params['slots']);
+        if (params['server'] != null) httpParams = httpParams.set('server', params['server']);
+        if (params['classes'] != null) httpParams = httpParams.set('classes', params['classes']);
+        return this.equipSlotService.getAllArmorEquipSlotsByClassAndSlot(httpParams).pipe(
+          catchError(() => {
+            this.error = 'Failed to load armor.';
+            return of([]);
+          })
+        );
+      })
+    );
   }
 
   selectPlate() {
@@ -127,20 +121,7 @@ export class CharacterarmorslottableComponent implements OnInit {
     this.chainCheckbox = false;
     this.silkCheckbox = false;
     this.leatherCheckbox = false;
-    this.router.navigate(['/character-armor'], {relativeTo: this.route, queryParams: {classes: checkedClassesArray, slots: checkedSlotsArray, server: checkedServerArray}}).then(() => {
-      this.getCharacterListFromParams()
-    });
-  }
-
-  getCharacterListFromParams(){
-    this.characterArmorSlotSubscription = this.equipSlotService.getAllArmorEquipSlotsByClassAndSlot(this.httpParams)
-      .subscribe({
-          next: value => {
-            this.characterArmorSlots = value;
-          },
-          error: x => console.log('Error', x),
-        }
-      );
+    this.router.navigate(['/character-armor'], {relativeTo: this.route, queryParams: {classes: checkedClassesArray, slots: checkedSlotsArray, server: checkedServerArray}});
   }
 
   private flipClassBasedOffFighterType(value: boolean, fighterType: String){
