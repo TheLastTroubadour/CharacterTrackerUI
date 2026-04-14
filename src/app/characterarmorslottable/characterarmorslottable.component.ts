@@ -29,6 +29,9 @@ export class CharacterarmorslottableComponent implements OnInit {
   slotCheckBox: any[] = [];
   classCheckbox: any[] = [];
   serverCheckbox: any[] = [];
+  meleeCheckBox: boolean = false;
+  casterCheckBox: boolean = false;
+  healerCheckBox: boolean = false;
   plateCheckbox: boolean = false;
   leatherCheckbox: boolean = false;
   chainCheckbox: boolean = false;
@@ -46,8 +49,9 @@ export class CharacterarmorslottableComponent implements OnInit {
       let shortName: string = entry.shortName;
       let longName: string = entry.obj.display;
       let armorType: string = entry.obj.armorType;
+      let fighterType: string = entry.obj.fighterType;
 
-      this.classCheckbox.push({longName: longName, value: shortName, armorType: armorType, checked: false});
+      this.classCheckbox.push({longName: longName, value: shortName, armorType: armorType, fighterType: fighterType, checked: false});
     }
 
     for(const entry in this.armorSlots) {
@@ -82,6 +86,18 @@ export class CharacterarmorslottableComponent implements OnInit {
     this.flipCLassBasedOffArmorType(this.plateCheckbox, "Plate");
   }
 
+  selectMelee(){
+    this.flipClassBasedOffFighterType(this.meleeCheckBox, 'Melee');
+  }
+
+  selectCaster(){
+    this.flipClassBasedOffFighterType(this.casterCheckBox, 'Caster');
+  }
+
+  selectHealer(){
+    this.flipClassBasedOffFighterType(this.healerCheckBox, 'Healer');
+  }
+
   selectChain() {
     this.flipCLassBasedOffArmorType(this.chainCheckbox, "Chain");
   }
@@ -104,6 +120,9 @@ export class CharacterarmorslottableComponent implements OnInit {
     this.slotCheckBox.forEach(v => v.checked = false);
     this.serverCheckbox.filter(v => v.checked).forEach(v => checkedServerArray.push(v.name));
     this.serverCheckbox.forEach(v => v.checked = false);
+    this.meleeCheckBox = false;
+    this.casterCheckBox = false;
+    this.healerCheckBox = false;
     this.plateCheckbox = false;
     this.chainCheckbox = false;
     this.silkCheckbox = false;
@@ -122,6 +141,10 @@ export class CharacterarmorslottableComponent implements OnInit {
           error: x => console.log('Error', x),
         }
       );
+  }
+
+  private flipClassBasedOffFighterType(value: boolean, fighterType: String){
+    this.classCheckbox.filter(v => v.fighterType === fighterType).forEach(v => v.checked = value);
   }
 
   private flipCLassBasedOffArmorType(value: boolean, armorType: String){

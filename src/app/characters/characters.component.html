@@ -3,11 +3,13 @@
   <tr>
     <th>Name</th>
     <th>Level</th>
+    <th>Class</th>
     <th>Server</th>
   </tr>
   <tr *ngFor="let character of characters">
     <td>{{character.name}}</td>
     <td>{{character.level}}</td>
+    <td>{{character.characterClass}}</td>
     <td>{{character.server}}</td>
   </tr>
 </table>

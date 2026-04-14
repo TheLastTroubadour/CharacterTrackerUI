@@ -5,7 +5,7 @@
   </div>
   <div class="character-form">
     <label>Class</label>
-    <select formControlName="class" name="classes" (change)="changeClass($event)">
+    <select formControlName="characterClass" name="classes" (change)="changeClass($event)">
       <option selected></option>
       <option *ngFor="let cls of characterClasses">{{cls.obj.display}}</option>
     </select>

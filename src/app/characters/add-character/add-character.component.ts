@@ -39,7 +39,7 @@ export class AddCharacterComponent implements OnInit{
 
   addCharacter() {
     let character: Character = this.characterForm.value as any as Character;
-    console.log('character', character);
-    this.characterService.addCharacter(character);
+    let res = this.characterService.addCharacter(character);
+    console.log(res);
   }
 }

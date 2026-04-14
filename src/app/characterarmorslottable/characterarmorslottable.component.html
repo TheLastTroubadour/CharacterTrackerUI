@@ -1,29 +1,23 @@
-<table>
-  <tr>
+<table class="table">
+  <tr class="container form-check-inline">
     <td *ngFor="let serv of serverCheckbox; let i=index">
       <input name="{{serv.value}}" type="checkbox" value={{serv.value}} [(ngModel)]="serv.checked">
       <label>{{serv.name}}</label>
     </td>
   </tr>
-</table>
-<table>
-  <tr>
+  <tr class="container form-check-inline">
     <td *ngFor="let selected of classCheckbox; let i=index;">
       <input name={{selected.name}} type="checkbox" value={{selected.value}} [(ngModel)]="selected.checked">
       <label>{{selected.value}}</label>
     </td>
   </tr>
-</table>
-<table>
-  <tr>
+  <tr class="container form-check-inline">
     <td *ngFor="let s of slotCheckBox; let i=index;">
       <input name={{s.slotName}} type="checkbox" value={{s.slotName}} [(ngModel)]="s.checked">
       <label>{{s.slotName}}</label>
     </td>
   </tr>
-</table>
-<table>
-  <tr>
+  <tr class="container form-check-inline">
     <td>
       <input name="Plate" type="checkbox" value="Plate" [(ngModel)]="plateCheckbox" (change)="selectPlate()">
       <label>Plate</label>
@@ -41,18 +35,32 @@
       <label>Silk</label>
     </td>
   </tr>
+  <tr class="container form-check-inline">
+    <td>
+      <input name="Melee" type="checkbox" value="Melee" [(ngModel)]="meleeCheckBox" (change)="selectMelee()">
+      <label>Melee</label>
+    </td>
+    <td>
+      <input name="Healer" type="checkbox" value="Healer" [(ngModel)]="healerCheckBox" (change)="selectHealer()">
+      <label>Healer</label>
+    </td>
+    <td>
+      <input name="Caster" type="checkbox" value="Caster" [(ngModel)]="casterCheckBox" (change)="selectCaster()">
+      <label>Caster</label>
+    </td>
+  </tr>
 </table>
 
 <button class="btn btn-success" type="submit" (click)="search()">Search</button>
 
-<table>
+<table class="table align-middle">
   <tr>
     <th>Character Name</th>
     <th>Armor Name</th>
     <th>HP</th>
     <th>Mana</th>
   </tr>
-  <tr *ngFor="let c of characterArmorSlots">
+  <tr *ngFor="let c of characterArmorSlots; let i = index">
     <td>{{c.character.name}}</td>
     <td>{{c.armor.name}}</td>
     <td>{{c.armor.hitPoints}}</td>
