@@ -26,7 +26,7 @@ export class CharacterarmorslottableComponent implements OnInit {
 
   slotCheckBox: any[] = [];
   classCheckbox: any[] = [];
-  serverCheckbox: any[] = [];
+  selectedServer: string = '';
   meleeCheckBox: boolean = false;
   casterCheckBox: boolean = false;
   healerCheckBox: boolean = false;
@@ -55,13 +55,10 @@ export class CharacterarmorslottableComponent implements OnInit {
       this.slotCheckBox.push({slotName: EquipSlot[entry], checked: false, value: entry});
     }
 
-    for(const entry in this.serverTypes) {
-      this.serverCheckbox.push({name: ServerTypes[entry], checked: false, value: entry});
-    }
-
     this.characterArmorSlots$ = this.route.queryParams.pipe(
       switchMap(params => {
         this.error = null;
+        this.selectedServer = params['server'] ?? '';
         let httpParams = new HttpParams();
         if (params['slots'] != null) httpParams = httpParams.set('slots', params['slots']);
         if (params['server'] != null) httpParams = httpParams.set('server', params['server']);
@@ -105,15 +102,10 @@ export class CharacterarmorslottableComponent implements OnInit {
   }
 
   search() {
-    let checkedClassesArray: String[] = [];
-    let checkedSlotsArray: String[] = [];
-    let checkedServerArray: String[] = [];
-    this.classCheckbox.filter(v => v.checked).forEach(v => checkedClassesArray.push(v.longName));
+    const checkedClassesArray: string[] = this.classCheckbox.filter(v => v.checked).map(v => v.longName);
+    const checkedSlotsArray: string[] = this.slotCheckBox.filter(v => v.checked).map(v => v.slotName);
     this.classCheckbox.forEach(v => v.checked = false);
-    this.slotCheckBox.filter((v => v.checked)).forEach(v => checkedSlotsArray.push(v.slotName));
     this.slotCheckBox.forEach(v => v.checked = false);
-    this.serverCheckbox.filter(v => v.checked).forEach(v => checkedServerArray.push(v.name));
-    this.serverCheckbox.forEach(v => v.checked = false);
     this.meleeCheckBox = false;
     this.casterCheckBox = false;
     this.healerCheckBox = false;
@@ -121,7 +113,10 @@ export class CharacterarmorslottableComponent implements OnInit {
     this.chainCheckbox = false;
     this.silkCheckbox = false;
     this.leatherCheckbox = false;
-    this.router.navigate(['/character-armor'], {relativeTo: this.route, queryParams: {classes: checkedClassesArray, slots: checkedSlotsArray, server: checkedServerArray}});
+    this.router.navigate(['/character-armor'], {
+      relativeTo: this.route,
+      queryParams: {classes: checkedClassesArray, slots: checkedSlotsArray, server: this.selectedServer || null}
+    });
   }
 
   private flipClassBasedOffFighterType(value: boolean, fighterType: String){

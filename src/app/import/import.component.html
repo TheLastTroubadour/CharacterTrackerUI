@@ -1,0 +1,28 @@
+<h2 class="mb-3">Import</h2>
+
+<div class="card shadow-sm" style="max-width: 600px;">
+  <div class="card-body">
+
+    <div *ngIf="success" class="alert alert-success">Import successful!</div>
+    <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+
+    <div class="mb-3">
+      <label class="form-label">Select JSON files from Lua script</label>
+      <input class="form-control" type="file" accept=".json" multiple (change)="onFilesSelected($event)">
+      <div *ngIf="selectedCount > 0" class="form-text">{{selectedCount}} file(s) selected</div>
+    </div>
+
+    <ul *ngIf="fileStatuses.length > 0" class="list-group mb-3">
+      <li *ngFor="let f of fileStatuses" class="list-group-item d-flex justify-content-between align-items-center">
+        <span class="text-truncate me-3" style="max-width: 450px;">{{f.name}}</span>
+        <span *ngIf="f.status === 'error'" class="badge bg-danger" [title]="f.message">Invalid JSON</span>
+      </li>
+    </ul>
+
+    <button class="btn btn-primary" (click)="import()" [disabled]="!selectedCount || loading">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status"></span>
+      {{loading ? 'Importing...' : 'Import All'}}
+    </button>
+
+  </div>
+</div>

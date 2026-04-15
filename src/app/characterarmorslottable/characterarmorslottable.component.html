@@ -5,12 +5,10 @@
 
     <div class="mb-3">
       <h6 class="text-muted text-uppercase fw-semibold mb-2">Server</h6>
-      <div class="d-flex flex-wrap gap-3">
-        <div *ngFor="let serv of serverCheckbox" class="form-check">
-          <input class="form-check-input" name="{{serv.value}}" type="checkbox" [id]="'serv-' + serv.value" value={{serv.value}} [(ngModel)]="serv.checked">
-          <label class="form-check-label" [for]="'serv-' + serv.value">{{serv.name}}</label>
-        </div>
-      </div>
+      <select class="form-select w-auto" [(ngModel)]="selectedServer">
+        <option value="">All Servers</option>
+        <option *ngFor="let s of serverTypes" [value]="s">{{s}}</option>
+      </select>
     </div>
 
     <div class="mb-3">
